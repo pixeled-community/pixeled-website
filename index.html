@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixeled Community</title>
+<meta name="description" content="Donde cada pixel cuenta una historia. Únete a la comunidad de Pixeled Community en Discord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07060b;
+    --purple-deep:#3d1a8a;
+    --purple:#6330d5;
+    --purple-bright:#8B2FC9;
+    --purple-glow:#B44FE8;
+    --text:#f1eefc;
+    --muted:#9b93b8;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{
+    height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Montserrat', sans-serif;
+    overflow:hidden;
+  }
+
+  /* ---------- pixel grid backdrop ---------- */
+  #grid{
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(99,48,213,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,48,213,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 30%, transparent 75%);
+    z-index:0;
+  }
+
+  canvas#stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+  }
+
+  /* radial purple glow behind content */
+  #glow{
+    position:fixed;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(99,48,213,0.22) 0%, rgba(99,48,213,0.06) 40%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  main{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+    gap:28px;
+  }
+
+  /* ---------- logo with pixel-glitch reveal ---------- */
+  .logo-wrap{
+    width:108px;
+    height:108px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation: pixel-in 1.1s steps(6) both;
+  }
+
+  .logo-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 22px rgba(99,48,213,0.55));
+  }
+
+  @keyframes pixel-in{
+    0%{ opacity:0; filter: blur(0); clip-path: inset(0 100% 0 0); }
+    60%{ opacity:1; }
+    100%{ opacity:1; clip-path: inset(0 0 0 0); }
+  }
+
+  h1{
+    font-family:'Press Start 2P', monospace;
+    font-size: clamp(1.5rem, 5vw, 2.6rem);
+    letter-spacing: 2px;
+    line-height:1.5;
+    color:var(--text);
+    text-shadow: 0 0 18px rgba(99,48,213,0.6);
+    animation: fade-up 0.8s 0.3s both ease-out;
+  }
+
+  h1 span{
+    color:var(--purple-glow);
+  }
+
+  .slogan{
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    color:var(--muted);
+    font-weight:500;
+    letter-spacing:0.5px;
+    font-style:italic;
+    animation: fade-up 0.8s 0.5s both ease-out;
+  }
+
+  @keyframes fade-up{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ---------- discord CTA ---------- */
+  .cta{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    margin-top:10px;
+    padding:16px 36px;
+    background:linear-gradient(70deg, var(--purple-deep), var(--purple));
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1.02rem;
+    letter-spacing:0.4px;
+    border-radius:10px;
+    border:1px solid rgba(180,79,232,0.5);
+    box-shadow: 0 0 0 rgba(99,48,213,0);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    animation: fade-up 0.8s 0.7s both ease-out;
+  }
+
+  .cta:hover{
+    transform: translateY(-3px);
+    background:linear-gradient(70deg, var(--purple), var(--purple-glow));
+    box-shadow: 0 10px 30px rgba(99,48,213,0.45);
+  }
+
+  .cta:active{ transform: translateY(-1px); }
+
+  .cta svg{ width:22px; height:22px; flex-shrink:0; }
+
+  .cta:focus-visible{
+    outline: 2px solid var(--purple-glow);
+    outline-offset:4px;
+  }
+
+  footer{
+    position:relative;
+    z-index:2;
+    padding-bottom:22px;
+    font-size:0.7rem;
+    color:#534b6e;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:480px){
+    .logo-wrap{ width:84px; height:84px; }
+    .cta{ padding:14px 26px; font-size:0.92rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="grid"></div>
+<canvas id="stars"></canvas>
+<div id="glow"></div>
+
+<main>
+  <div class="logo-wrap">
+    <img src="https://raw.githubusercontent.com/pixeled-community/logo-pixeled/main/logo_simple-2.png" alt="Pixeled Community">
+  </div>
+
+  <h1>PIXELED <span>COMMUNITY</span></h1>
+  <p class="slogan">Donde cada pixel cuenta una historia.</p>
+
+  <a class="cta" href="https://discord.gg/ryMNh7vrgw" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20.317 4.369A19.79 19.79 0 0 0 15.885 3c-.222.398-.48.93-.658 1.354a18.27 18.27 0 0 0-5.454 0A12.6 12.6 0 0 0 9.115 3 19.79 19.79 0 0 0 4.683 4.37C1.533 9.046.692 13.6.957 18.096a19.9 19.9 0 0 0 6.038 3.045c.487-.661.92-1.36 1.293-2.094a12.9 12.9 0 0 1-2.04-.974c.171-.124.339-.253.5-.387 3.927 1.793 8.18 1.793 12.062 0 .163.134.331.263.501.387-.65.385-1.331.71-2.04.975.373.733.806 1.432 1.293 2.093a19.86 19.86 0 0 0 6.044-3.044c.34-5.224-.66-9.738-3.291-13.728ZM8.998 15.32c-1.18 0-2.146-1.069-2.146-2.382 0-1.312.946-2.382 2.146-2.382 1.21 0 2.166 1.08 2.146 2.382 0 1.313-.946 2.382-2.146 2.382Zm6.014 0c-1.18 0-2.146-1.069-2.146-2.382 0-1.312.946-2.382 2.146-2.382 1.21 0 2.166 1.08 2.146 2.382 0 1.313-.937 2.382-2.146 2.382Z"/>
+    </svg>
+    Únete a nuestro Discord
+  </a>
+</main>
+
+<footer>Pixeled Community &middot; FiveM Roleplay</footer>
+
+<script>
+  // Subtle starfield, consistent with the loading-screen aesthetic
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const count = Math.floor((canvas.width * canvas.height) / 9000);
+    stars = Array.from({length: count}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.3 + 0.2,
+      a: Math.random() * 0.6 + 0.15,
+      speed: Math.random() * 0.15 + 0.02
+    }));
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const s of stars){
+      s.y += s.speed;
+      if(s.y > canvas.height) s.y = 0;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(216, 196, 255, ${s.a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  resize();
+  window.addEventListener('resize', resize);
+  if(!reduceMotion) draw();
+</script>
+
+</body>
+</html>
